@@ -2,7 +2,7 @@
 
 ## Exercice : Paramètre
 
-** Explication du script** : Ce script Bash vérifie si des paramètres ont été passés lors de son exécution. Il utilise la variable `$#`, qui représente le nombre total de paramètres fournis. Si ce nombre est supérieur à 0, le script affiche plusieurs informations nottament le nombre de parametres, le nom du script avec `$0`, le troisième paramètre avec `$3`, et la liste complète des paramètres avec `$@`. Si aucun paramètre n’est ajouté, le script affiche un message indiquant qu'aucun paramètre n'a été fourni. 
+**Explication du script** : Ce script vérifie si des paramètres ont été passés lors de son exécution. Il utilise la variable `$#`, qui représente le nombre total de paramètres fournis. Si ce nombre est supérieur à 0, le script affiche plusieurs informations nottament le nombre de parametres, le nom du script avec `$0`, le troisième paramètre avec `$3`, et la liste complète des paramètres avec `$@`. Si aucun paramètre n’est ajouté, le script affiche un message indiquant qu'aucun paramètre n'a été fourni. 
 
 ```
 #!/bin/bash
@@ -25,13 +25,13 @@ fi
 
 ## Exercice : Vérification du nombre de paramètres
 
-** Explication du script** : 
+**Explication du script** : Ce script vérifie d'abord si deux paramètres ont été passés lors de son exécution. Pour verifier ceci on utilise le `if` et `-eq`pour `equal`. Si c'est le cas, alors on fait la concaténation des 2 paramètres (`$1`et `$2`) qui sont enregistrer dans une variable qu'on affiche dans un echo. Si ce n'est pas le cas, alors on affiche un message d'erreur et on sort du programme avec un exit 1 qui renvoie une erreur.
 
 ```
 #!/bin/bash
 # Vérification du nombre de paramètres
 
-# Vérifie si 
+# Vérifie si 2 parametres ont ete passes au script
 if [ $# -eq 2 ];
 then
     # Si la condition est vrai, on concatène les deux parametres
@@ -46,6 +46,8 @@ fi
 
 ## Exercice : Argument type et droits
 
+**Explication du script** : Ce script vérifie d'abord si un paramètre a été passé lors de son exécution. Si c'est le cas on verifie si ce paramètre et un fichier (`-e`) sinon on regarde si il s'agit d'un repertoire ou autre, Une fois qu'on s'assure qu'il s'agit d'un fichier on regarde si le fichier contient des informations (`-s`) et on renvoie un message qui le precise. Par la meme condition on verfie les permissions du fichier par l'utilisateur (dans notre cas `root`) pour cette verification on verifie `-r` (lecture) ,`-w` (write) et `-x` (éxecution) et enfin on affiche les permissions du fichier.
+
 ```
 #!/bin/bash
 # Argument type et droits
@@ -55,8 +57,10 @@ valeur_perm=""
 
 if [ $# -eq 1 ];
 then
+    # Vérification si c'est un fichier
     if [ -e $1 ];
     then
+        # Vérification si le fichier et vide ou non
         if [ -s $1 ];
         then
             echo "Le fichier $1 est un fichier ordinaire qui n'est pas vide."
@@ -82,6 +86,7 @@ then
             echo "$1 n'est pas accessible par $utilisateur."
         fi
 
+    # Vérification si le parametre est un repertoire ou autre
     elif [ -d $1 ];
     then
         echo "Le paramètre $1 est un répertoire."
@@ -96,18 +101,24 @@ fi
 
 ## Exercice : Afficher le contenu d'un repertoire
 
+**Explication du script** : Ce script vérifie d'abord si un paramètre a été passé lors de son exécution. Si c'est le cas on verifie si le parametre est un dossier (`if [ ! -d $1 ];`) Si ce n'est pas le cas on affiche un message qui demande a l'utilisateur d'ajouter un repertoire. Si il s'agit d'un repertoire on affiche les fichier (`-type f`) du repertoire avec `find` associé avec le parametre `$1` ainsi que de `-maxdepth 1` qui sert à ne pas afficher les sous repertoires. On fait egalement la meme chose pour les dossier en changeant uniquement le type par (`-type d`).
+
 ```
 #!/bin/bash
 # Afficher le contenu d'un repertoire
 
+# Verifier si il y a un parametre associé.
 if [ $# -eq 1 ];
 then
+    # Verifier si le parametre est un dossier
     if [ ! -d $1 ];
     then
         echo "Vous devez saisir un repertoire."
     else
+        # Affiche les informations des fichiers
         echo "####### fichier dans $1/"
-        find "$1" -maxdepth 1 -type f 
+        find "$1" -maxdepth 1 -type f
+        # Affiche les informations des dossiers
         echo "####### repertoires dans $1/"
         find "$1" -maxdepth 1 -type d
     fi
@@ -118,6 +129,8 @@ fi
 ```
 
 ## Exercice : Lister les utilisateurs
+
+**Explication du script** : 
 
 ```
 #!/bin/bash
@@ -154,6 +167,8 @@ fi
 ```
 
 ## Exercice : Mon utilisateur existe t'il ?
+
+**Explication du script** : 
 
 ```
 #!/bin/bash
@@ -193,6 +208,8 @@ fi
 ```
 
 ## Exercice : Création utilisateur
+
+**Explication du script** : 
 
 ```
 #!/bin/bash
@@ -255,6 +272,8 @@ fi
 
 ## Exercice : Lecture au clavier
 
+**Explication du script** : 
+
 ```
 #!/bin/bash
 # Lecture au clavier
@@ -285,6 +304,8 @@ fi
 ```
 
 ## Exercice : Appréciation
+
+**Explication du script** : 
 
 ```
 #!/bin/bash
