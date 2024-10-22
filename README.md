@@ -130,18 +130,23 @@ fi
 
 ## Exercice : Lister les utilisateurs
 
-**Explication du script** : 
+**Explication du script** :  Ce script a pour objectif de lister les utilisateurs présents dans le système, en se basant sur le fichier /etc/passwd. Tout d'abord, on vérifie si le fichier /etc/passwd est lisible. Si c'est le cas, le script entre dans une boucle pour lire chaque ligne du fichier. Pour chaque ligne, il extrait le nom d'utilisateur et l'uid a l'aide de la commande `cut`. ensuite on verifie si l'uid qu'on a recuperer est supérieur a 100 a l'aide de la condition `if [ "$uid" -gt 100 ];`.
 
 ```
 #!/bin/bash
 # Lister les utilisateurs
 
+# Vérifie si le fichier /etc/passwd est lisible
 if [ -r /etc/passwd ];
 then
+    # Lit chaque ligne du fichier /etc/passwd
     while read -r line;
     do
+        # Extrait le nom d'utilisateur en prenant le premier champ avant le caractère ':'
         utilisateur=$(echo "$line" | cut -d: -f1)
+        # Extrait l'UID en prenant le troisième champ
         uid=$(echo "$line" | cut -d: -f3)
+        # Vérifie si l'UID est supérieur à 100
         if [ "$uid" -gt 100 ];
         then
             echo "$utilisateur : $uid"
@@ -153,12 +158,15 @@ else
 fi
 ```
 
+En utilisant la commande `awk`, le script devient de la sorte:
 ```
 #!/bin/bash
 # Lister les utilisateurs
 
+# Vérifie si le fichier /etc/passwd est lisible
 if [ -r /etc/passwd ];
 then
+    # Utilise awk pour filtrer et afficher les noms d'utilisateurs avec un UID supérieur à 100
     awk -F: '$3 > 100 { print $1 }' /etc/passwd
 else
     echo "Le fichier /etc/passwd n'est pas lisible."
@@ -290,7 +298,7 @@ comment chercher une chaine de caractères ?
 Passer à l’occurence suivante ?
 - Pour passer à l'occurrence suivante de la chaîne recherchée, il faut appuyez sur n
 
-**Explication du script** : 
+**Explication du script** :  Ce script permet de parcourir les fichiers d'un répertoire spécifié par l'utilisateur et de lui proposer de visualiser les fichiers texte qu'il contient. Il commence par vérifier si un argument a été passé lors de l'exécution du script. Si un argument est fourni, il vérifie si celui-ci correspond à un répertoire. Si ce n'est pas le cas, il affiche un message d'erreur. Pour faire fonctioner ce script, on applique des conditions pour verifier qu'un argument et passé et qu'il ne s'agisse pas d'un repertoire, on utilise la commande more qui permet d'afficher le contenu du fichier texte page par page.
 
 ```
 #!/bin/bash
@@ -303,13 +311,16 @@ then
         echo "Vous devez saisir un repertoire."
     else
         # Parcourir chaque fichier du répertoire spécifié
-        for fichier in "$1"/*; do
+        for fichier in "$1"/*;
+        do
             # Utiliser la commande file pour vérifier s'il s'agit d'un fichier texte
-            if file "$fichier" | grep -q "text"; then
+            if file "$fichier" | grep -q "text";
+            then
                 # Demander à l'utilisateur s'il souhaite visualiser le fichier
                 echo -n "Voulez-vous visualiser le fichier '$fichier' ? (oui/non) : "
                 read reponse
-                if [ "$reponse" = "oui" ]; then
+                if [ "$reponse" = "oui" ];
+                then
                     more "$fichier"
                 fi
             fi
