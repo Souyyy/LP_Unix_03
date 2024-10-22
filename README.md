@@ -186,18 +186,140 @@ fi
 ## Exercice : Création utilisateur
 
 ```
+#!/bin/bash
+# Création utilisateur
 
+# Vérifier si le script est execute par root
+if [ "$USER" != "root" ];
+then
+    echo "Le script doit etre execute en tant que root."
+    exit 1
+fi
+
+# Demander les informations pour l'utilisateur
+read -p "Entrez le login de l'utilisateur : " login
+read -p "Entrez le nom de famille : " nom
+read -p "Entrez le prenom : " prenom
+read -p "Entrez l'UID : " uid
+read -p "Entrez le GID : " gid
+read -p "Entrez des commentaires : " commentaires
+
+# Verifier si le login existe deja
+if grep "^$login:" /etc/passwd > /dev/null;
+then
+    echo "Erreur : Un utilisateur avec le login '$login' existe déjà."
+    exit 1
+fi
+
+# Vérifier si l'UID existe deja
+if awk -F: -v uid="$uid" '$3 == uid { exit 0 }' /etc/passwd;
+then
+    echo "Un utilisateur avec l'UID '$uid' existe deja."
+    exit 1
+fi
+
+# Verifier si le repertoire home existe deja
+if [ -d "/home/$login" ];
+then
+    echo "Erreur : Le repertoire /home/$login existe deja."
+    exit 1
+fi
+
+# Créer l'utilisateur avec useradd
+useradd -u "$uid" -g "$gid" -c "$nom $prenom, $commentaires" -m -d "/home/$login" -s /bin/bash "$login"
+
+# Vérifier si la creation a reussi
+if [ $? -eq 0 ]; then
+    echo "L'utilisateur '$login' a ete cree avec succes."
+    echo "Détails :"
+    echo "Login : $login"
+    echo "Nom : $nom"
+    echo "Prénom : $prenom"
+    echo "UID : $uid"
+    echo "GID : $gid"
+    echo "Commentaires : $commentaires"
+else
+    echo "Impossible de créer l'utilisateur."
+    exit 1
+fi
 ```
 
 ## Exercice : Lecture au clavier
 
 ```
+#!/bin/bash
+# Lecture au clavier
 
+if [ $# -eq 1 ];
+then
+    if [ ! -d $1 ];
+    then
+        echo "Vous devez saisir un repertoire."
+    else
+        # Parcourir chaque fichier du répertoire spécifié
+        for fichier in "$1"/*; do
+            # Utiliser la commande file pour vérifier s'il s'agit d'un fichier texte
+            if file "$fichier" | grep -q "text"; then
+                # Demander à l'utilisateur s'il souhaite visualiser le fichier
+                echo -n "Voulez-vous visualiser le fichier '$fichier' ? (oui/non) : "
+                read reponse
+                if [ "$reponse" = "oui" ]; then
+                    more "$fichier"
+                fi
+            fi
+        done
+    fi
+else
+    echo "Vous devez saisir 1 paramètre."
+    exit 1
+fi
 ```
 
 ## Exercice : Appréciation
 
 ```
+#!/bin/bash
+# Appreciation
 
+while true;
+do
+    # Demander la note à l'utilisateur
+    echo -n "Entrez une note (ou appuyez sur q pour quitter) : "
+    read note
+
+    # Vérifier si l'utilisateur veut quitter
+    if [ "$note" = "q" ];
+    then
+        echo "Vous avez quitté le programme."
+        exit 0
+    fi
+
+    # Vérifier si l'entrée est un nombre valide
+    if [[ "$note" =~ ^[0-9]+$ ]];
+    then
+        note=$(($note)) # Convertir la chaîne en entier
+
+        # Afficher un message en fonction de la note
+        if [ "$note" -ge 16 ] && [ "$note" -le 20 ];
+        then
+            echo "Très bien"
+        elif [ "$note" -ge 14 ] && [ "$note" -lt 16 ];
+        then
+            echo "Bien"
+        elif [ "$note" -ge 12 ] && [ "$note" -lt 14 ];
+        then
+            echo "Assez bien"
+        elif [ "$note" -ge 10 ] && [ "$note" -lt 12 ];
+        then
+            echo "Moyen"
+        elif [ "$note" -lt 10 ];
+        then
+            echo "Insuffisant"
+        fi
+    else
+        # Gerer les cas d'entrées non valides
+        echo "Erreur : veuillez entrer un nombre valide ou q pour quitter."
+    fi
+done
 ```
 
