@@ -90,13 +90,39 @@ fi
 ## Exercice : Afficher le contenu d'un repertoire
 
 ```
+#!/bin/bash
+# Afficher le contenu d'un repertoire
 
+if [ $# -eq 1 ];
+then
+    if [ ! -d $1 ];
+    then
+        echo "Vous devez saisir un repertoire."
+    else
+        echo "####### fichier dans $1/"
+        find "$1" -maxdepth 1 -type f 
+        echo "####### repertoires dans $1/"
+        find "$1" -maxdepth 1 -type d
+    fi
+else
+    echo "Vous devez saisir 1 paramètre."
+    exit 1
+fi
 ```
 
 ## Exercice : Lister les utilisateurs
 
 ```
+#!/bin/bash
+# Lister les utilisateurs
 
+if [ -r /etc/passwd ];
+then
+
+else
+    echo "Le fichier /etc/passwd n'est pas lisible."
+    exit 1
+fi
 ```
 
 ## Exercice : Mon utilisateur existe t'il ?
