@@ -147,7 +147,16 @@ fi
 ## Exercice : Mon utilisateur existe t'il ?
 
 ```
+#!/bin/bash
+# Lister les utilisateurs
 
+if [ $# -eq 1 ];
+then
+
+else
+    echo "Vous devez saisir 1 paramètre."
+    exit 1
+fi
 ```
 
 ## Exercice : Création utilisateur
