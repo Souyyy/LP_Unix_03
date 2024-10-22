@@ -152,7 +152,31 @@ fi
 
 if [ $# -eq 1 ];
 then
-
+    # Si un nom de login est passé
+    if [[ "$1" =~ ^[a-zA-Z0-9._-]+$ ]];
+    then
+        # Rechercher le login dans le fichier /etc/passwd
+        utilisateur=$(grep "^$1:" /etc/passwd)
+        if [ -n "$utilisateur" ];
+        then
+            uid=$(echo "$utilisateur" | cut -d: -f3)
+            echo "L'utilisateur '$1' existe avec l'UID : $uid"
+        fi
+    
+    # Si un UID est passé
+    elif [[ "$1" =~ ^[0-9]+$ ]];
+    then
+        utilisateur=$(awk -F: -v uid="$1" '$3 == uid { print $0 }' /etc/passwd)
+        if [ -n "$utilisateur" ];
+        then
+            login=$(echo "$utilisateur" | cut -d: -f1)
+            echo "L'utilisateur avec l'UID '$1' est : $login"
+        fi
+    
+    else
+        echo "L'argument doit etre un login ou un UID valide."
+        exit 1
+    fi
 else
     echo "Vous devez saisir 1 paramètre."
     exit 1
