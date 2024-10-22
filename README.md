@@ -107,7 +107,19 @@ fi
 
 ## Exercice : Création utilisateur
 
+```
+
+```
+
 ## Exercice : Lecture au clavier
 
+```
+
+```
+
 ## Exercice : Appréciation
+
+```
+
+```
 
