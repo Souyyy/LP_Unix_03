@@ -118,7 +118,26 @@ fi
 
 if [ -r /etc/passwd ];
 then
+    while read -r line; do
+        utilisateur=$(echo "$line" | cut -d: -f1)
+        uid=$(echo "$line" | cut -d: -f3)
+        if [ "$uid" -gt 100 ]; then
+            echo "$utilisateur : $uid"
+        fi
+    done < /etc/passwd
+else
+    echo "Le fichier /etc/passwd n'est pas lisible."
+    exit 1
+fi
+```
 
+```
+#!/bin/bash
+# Lister les utilisateurs
+
+if [ -r /etc/passwd ];
+then
+    awk -F: '$3 > 100 { print $1 }' /etc/passwd
 else
     echo "Le fichier /etc/passwd n'est pas lisible."
     exit 1
