@@ -168,7 +168,7 @@ fi
 
 ## Exercice : Mon utilisateur existe t'il ?
 
-**Explication du script** : 
+**Explication du script** :  Ce script vérifie d'abord si un paramètre a été passé lors de son exécution. Si c'est le cas il verifie si le parametre est un nom de login `if [[ "$1" =~ ^[a-zA-Z0-9._-]+$ ]];` ou un UID `elif [[ "$1" =~ ^[0-9]+$ ]];` en fonction de ce qui a ete saisie il verifie si dans le fichier `/etc/passwd` l'utilisateur ou uid est present. Si c'est le cas il affiche le nom de l'utilisateur ainsi que son uid. Ici la commande `cut`nous permet de recuperer les informations necessaire afin d'afficher l'uid ou le nom de l'utilisateur.
 
 ```
 #!/bin/bash
@@ -209,7 +209,7 @@ fi
 
 ## Exercice : Création utilisateur
 
-**Explication du script** : 
+**Explication du script** : Ce script permet de créer un nouvel utilisateur sur le système. Il commence par vérifier si le script est exécuté par l'utilisateur `root`, car la création d'utilisateurs nécessite des privilèges administratifs. Ensuite, il demande à l'utilisateur de saisir des informations nécessaires, telles que le nom de login, le nom de famille, le prénom, l'UID, le GID et des commentaires. Avant de procéder à la création, il vérifie si le login ou l'UID existe déjà dans le système en consultant le fichier /etc/passwd. Si ce n'est pas le cas il le crée, sinon il renvoie une erreur.
 
 ```
 #!/bin/bash
@@ -272,6 +272,24 @@ fi
 
 ## Exercice : Lecture au clavier
 
+comment quitter more ?
+- Pour quitter more il faut cliquer sur q
+  
+comment avancer d’une ligne ?
+- Pour avancer d'une ligne, il faut appuyez sur la touche Entrée ou Flèche bas.
+  
+comment avancer d’une page ?
+- Pour avancer d'une page, il faut appuyez sur la barre d'espace.
+
+comment remonter d’une page ?
+- Pour remonter d'une page, il faut appuyez sur la touche b
+
+comment chercher une chaine de caractères ? 
+- Pour chercher une chaîne de caractères, il faut appuyez sur la touche /
+
+Passer à l’occurence suivante ?
+- Pour passer à l'occurrence suivante de la chaîne recherchée, il faut appuyez sur n
+
 **Explication du script** : 
 
 ```
@@ -324,10 +342,11 @@ do
         exit 0
     fi
 
-    # Vérifier si l'entrée est un nombre valide
+    # Vérifier si l'entree est un nombre valide
     if [[ "$note" =~ ^[0-9]+$ ]];
     then
-        note=$(($note)) # Convertir la chaîne en entier
+        # Convertir la chaîne en entier
+        note=$(($note)) 
 
         # Afficher un message en fonction de la note
         if [ "$note" -ge 16 ] && [ "$note" -le 20 ];
@@ -347,8 +366,8 @@ do
             echo "Insuffisant"
         fi
     else
-        # Gerer les cas d'entrées non valides
-        echo "Erreur : veuillez entrer un nombre valide ou q pour quitter."
+        # Gerer les d'entree non valides
+        echo "Veuillez entrer un nombre valide ou q pour quitter."
     fi
 done
 ```
