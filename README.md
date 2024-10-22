@@ -2,36 +2,43 @@
 
 ## Exercice : Paramètre
 
+** Explication du script** : Ce script Bash vérifie si des paramètres ont été passés lors de son exécution. Il utilise la variable `$#`, qui représente le nombre total de paramètres fournis. Si ce nombre est supérieur à 0, le script affiche plusieurs informations nottament le nombre de parametres, le nom du script avec `$0`, le troisième paramètre avec `$3`, et la liste complète des paramètres avec `$@`. Si aucun paramètre n’est ajouté, le script affiche un message indiquant qu'aucun paramètre n'a été fourni. 
+
 ```
 #!/bin/bash
 #Paramètre
 
+# Vérifie si des parametres ont ete passes au script
 if [ $# -gt 0 ]
 then
-    # Bloc de code à exécuter si la condition est vraie
+    # Si oui, affiche le nombre total de paramètres, le nom du script, le 3eme parametre, et la liste des parametres
     echo "Bonjour, vous avez rentré $# paramètres."
     echo "Le nom du script est $0"
     echo "Le 3ème paramètre est $3"
     echo "Voici la liste des paramètres $@"
 else
-    # Bloc de code à exécuter si la condition est fausse
+    # Si non, afficher un message d'erreur
     echo "Il n'y a pas de parametre."
+    exit 1
 fi
 ```
 
 ## Exercice : Vérification du nombre de paramètres
 
+** Explication du script** : 
+
 ```
 #!/bin/bash
 # Vérification du nombre de paramètres
 
+# Vérifie si 
 if [ $# -eq 2 ];
 then
-    # Bloc de code à exécuter si la condition est vraie
+    # Si la condition est vrai, on concatène les deux parametres
     CONCAT="$1$2"
     echo "Voici la concaténation: $CONCAT"
 else
-    # Bloc de code à exécuter si la condition est fausse
+    # Si la condition est fausse, affiche un message d'erreur
     echo "Vous devez saisir 2 paramètres"
     exit 1
 fi
