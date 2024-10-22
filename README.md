@@ -323,7 +323,7 @@ fi
 
 ## Exercice : Appréciation
 
-**Explication du script** : Ce script permet à l'utilisateur de saisir une note et d'obtenir une appréciation correspondante. Il fonctionne dans une boucle infinie `while true`, demandant à l'utilisateur d'entrer une note ou de taper q pour quitter le programme. Ainsi pour avoir une appréciation a la note, on verifie a travers des conditions `if, `elif` et `else` et des `-ge` et des `lt` pour verifier que la note se situe bien entre la condition pour afficher le message. 
+**Explication du script** : Ce script permet à l'utilisateur de saisir une note et d'obtenir une appréciation correspondante. Il fonctionne dans une boucle infinie `while true`, demandant à l'utilisateur d'entrer une note ou de taper q pour quitter le programme. Ainsi pour avoir une appréciation a la note, on verifie a travers des conditions `if`, `elif` et `else` et des `-ge` et des `lt` pour verifier que la note se situe bien entre la condition pour afficher le message. 
 
 ```
 #!/bin/bash
