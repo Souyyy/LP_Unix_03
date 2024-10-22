@@ -40,7 +40,51 @@ fi
 ## Exercice : Argument type et droits
 
 ```
+#!/bin/bash
+# Argument type et droits
 
+utilisateur=$(whoami)
+valeur_perm=""
+
+if [ $# -eq 1 ];
+then
+    if [ -e $1 ];
+    then
+        if [ -s $1 ];
+        then
+            echo "Le fichier $1 est un fichier ordinaire qui n'est pas vide."
+        else
+            echo "Le fichier $1 est un fichier ordinaire qui est vide."
+        fi
+
+        # Vérification des permissions
+        if [ -r "$1" ]; then
+            valeur_perm+="lecture, "
+        fi
+        if [ -w "$1" ]; then
+            valeur_perm+="écriture, "
+        fi
+        if [ -x "$1" ]; then
+            valeur_perm+="exécution"
+        fi
+
+        # Affichage des permissions si elles existent
+        if [ -n "$valeur_perm" ]; then
+            echo "\"$1\" est accessible par $utilisateur en $valeur_perm."
+        else
+            echo "$1 n'est pas accessible par $utilisateur."
+        fi
+
+    elif [ -d $1 ];
+    then
+        echo "Le paramètre $1 est un répertoire."
+    else
+        echo "Le paramètre $1 est un lien symbolique ou un type spécial."
+    fi
+    
+else
+    echo "Vous devez saisir 1 paramètre."
+fi
 ```
 
 ## Exercice : Afficher le contenu d'un repertoire
